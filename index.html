@@ -233,9 +233,8 @@ const SEGS = [
   {g:"Goals",t:"Thank you for your time.",zh:"感謝各位的聆聽。"},
 ];
 
-// ── WORD DICTIONARY (key words in the script → zh translation) ─────────────
+// ── WORD DICTIONARY ───────────────────────────────────────────────────────
 const WORD_DICT = {
-  // Core nouns / titles
   educator:"教育工作者", milestone:"里程碑", career:"職涯", degree:"學位",
   management:"管理", university:"大學", logical:"邏輯的", analysis:"分析",
   programming:"程式設計", skills:"技能", registration:"教務", chief:"組長",
@@ -256,7 +255,6 @@ const WORD_DICT = {
   aspire:"渴望", principal:"校長", utilizes:"善用", technology:"科技",
   bridge:"縮短（差距）", gaps:"落差", redefine:"重新定義", digital:"數位",
   transformation:"轉型", immersed:"沉浸投入",
-  // Phrases / specific terms
   "3d":"3D（三維）", vr:"VR（虛擬實境）", ai:"AI（人工智慧）",
   stem:"STEM（科學科技工程數學）", iot:"IoT（物聯網）", udl:"UDL（全方位學習設計）",
   unsw:"新南威爾斯大學", sydney:"雪梨",
@@ -291,7 +289,6 @@ function compareWords(expected, heard) {
 function renderScript(seg, comparison) {
   const parts = seg.t.split(/(\s+)/);
   let html = '', wi = 0;
-  // get original word tokens preserving punctuation
   const origToks = [];
   parts.forEach(p => { if (!/^\s+$/.test(p) && norm(p)) origToks.push(p); });
   parts.forEach(part => {
@@ -317,7 +314,6 @@ window.addEventListener('resize', () => { updateNavVis(); buildNav(); });
 updateNavVis();
 
 function buildNav() {
-  // Desktop pills — group labels
   const nav = document.getElementById('pillNav');
   nav.innerHTML = '';
   const groups = [...new Set(SEGS.map(s=>s.g))];
@@ -332,7 +328,6 @@ function buildNav() {
     nav.appendChild(btn);
   });
 
-  // Mobile dots
   const bar = document.getElementById('dotsBar');
   bar.innerHTML = '';
   SEGS.forEach((seg, i) => {
@@ -346,7 +341,6 @@ function buildNav() {
   lbl.textContent = `${cur+1}/${TOTAL} · ${SEGS[cur].g}`;
   bar.appendChild(lbl);
 
-  // Nav arrows
   const prev = document.getElementById('btnPrev');
   const next = document.getElementById('btnNext');
   if (prev) prev.disabled = cur === 0;
@@ -458,7 +452,7 @@ function dbg(msg) {
   if (el) el.textContent = debugLines.join('\n');
 }
 
-// ── RECORDING — Android-safe ─────────────────────────────────────────────────
+// ── RECORDING — 核心邏輯修正 ───────────────────────────────────────────────
 function toggleRecord() { isRec ? stopRecord() : startRecord(); }
 
 function startRecord() {
@@ -473,19 +467,27 @@ function startRecord() {
   syncRecUI(true);
   dbg('▶ startRecord()');
 
-  // Request mic first, then start SR with same stream
-  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
-    dbg('✓ 麥克風授權成功');
-    startAudioRec(stream);
-    // Small delay so mic warms up before SR grabs it
-    setTimeout(()=>startSRLoop(), 300);
-  }).catch(err=>{
-    dbg('✗ 麥克風錯誤: ' + err.message);
-    isRec = false; shouldKeepRecording = false;
-    syncRecUI(false);
-    clearInterval(timerInt);
-    alert('無法取得麥克風：' + err.message);
-  });
+  // 偵測是否為 Android 系統以解決麥克風衝突問題
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  if (isAndroid) {
+    dbg('Android 系統偵測：為避免麥克風衝突，僅啟動 SpeechRecognition');
+    // 在 Android 設備上直接啟動 SpeechRecognition，捨棄 MediaRecorder
+    startSRLoop();
+  } else {
+    // 非 Android 設備，維持原本雙軌並行
+    navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+      dbg('✓ 麥克風授權成功');
+      startAudioRec(stream);
+      setTimeout(()=>startSRLoop(), 300);
+    }).catch(err=>{
+      dbg('✗ 麥克風錯誤: ' + err.message);
+      isRec = false; shouldKeepRecording = false;
+      syncRecUI(false);
+      clearInterval(timerInt);
+      alert('無法取得麥克風：' + err.message);
+    });
+  }
 }
 
 let srRestartCount = 0;
@@ -501,7 +503,7 @@ function startSRLoop() {
   }
 
   recognition.lang = 'en-US';
-  recognition.continuous = false;     // false = Android compatible
+  recognition.continuous = false;
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;
 
@@ -530,9 +532,7 @@ function startSRLoop() {
 
   recognition.onerror = e => {
     dbg('SR error: ' + e.error);
-    // no-speech & aborted are normal on Android — restart
     if (e.error === 'no-speech' || e.error === 'aborted' || e.error === 'audio-capture') {
-      // onend will handle restart
       return;
     }
     if (e.error === 'not-allowed') {
@@ -549,7 +549,6 @@ function startSRLoop() {
     if (shouldKeepRecording) {
       setTimeout(startSRLoop, 150);
     } else {
-      // User pressed stop — finalize
       const heard = (finalTx + ' ' + interimTx).trim();
       dbg('Final heard: "' + heard.slice(0,60) + '"');
       if (heard) processResult(heard);
@@ -562,20 +561,18 @@ function startSRLoop() {
     dbg('SR .start() called');
   } catch(e) {
     dbg('✗ SR .start() 拋錯: ' + e.message);
-    // Likely "already started" — wait and retry
     setTimeout(startSRLoop, 500);
   }
 }
 
 function stopRecord() {
   dbg('■ stopRecord()');
-  shouldKeepRecording = false;  // signal onend to finalize
+  shouldKeepRecording = false;
   isRec = false;
   clearInterval(timerInt);
   syncRecUI(false);
   if (recognition) {
     try { recognition.stop(); } catch(e){ dbg('stop() err: '+e.message); }
-    // onend will call processResult
   } else {
     const heard = (finalTx + ' ' + interimTx).trim();
     if (heard) processResult(heard);
@@ -601,7 +598,7 @@ function startAudioRec(stream) {
       const pm = document.getElementById('playBtnMob'); if (pm) pm.disabled = false;
       const pd = document.getElementById('playBtnDesk'); if (pd) pd.disabled = false;
     };
-    mr.start(500); // collect every 500ms
+    mr.start(500);
     mediaRecorder = mr;
     mediaRecorder._stream = stream;
     dbg('AudioRec started');
