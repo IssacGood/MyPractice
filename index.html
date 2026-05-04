@@ -17,7 +17,6 @@
 html,body{height:100%;overflow-x:hidden}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
 
-/* HEADER */
 .hdr{background:var(--accent);color:#fff;padding:max(18px,env(safe-area-inset-top,18px)) 16px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:100}
 .hdr h1{font-family:'DM Serif Display',serif;font-size:clamp(16px,5vw,22px);font-weight:400;line-height:1.2}
 .hdr p{font-size:11px;opacity:.7;margin-top:2px}
@@ -25,7 +24,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .ring-wrap span{font-size:10px;opacity:.7}
 .ring-svg{transform:rotate(-90deg)}
 
-/* DOTS NAV */
 .dots-bar{background:var(--accent);padding:0 16px 12px;display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none}
 .dots-bar::-webkit-scrollbar{display:none}
 .dot-btn{flex-shrink:0;width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer;transition:all .2s;padding:0}
@@ -33,17 +31,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .dot-btn.done{background:rgba(255,255,255,.7)}
 .dot-lbl{font-size:11px;color:rgba(255,255,255,.85);white-space:nowrap;margin-left:4px}
 
-/* CONTAINER */
 .wrap{max-width:820px;margin:0 auto;padding:16px 14px calc(90px + env(safe-area-inset-bottom,0px) + 16px)}
 
-/* STATS */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .scard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 8px;text-align:center}
 .scard .v{font-family:'DM Serif Display',serif;font-size:clamp(18px,6vw,26px);line-height:1}
 .scard .l{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
 .scard.g .v{color:var(--green)}.scard.b .v{color:#1A6BB5}.scard.a .v{color:var(--amber)}
 
-/* DESKTOP PILLS */
 .pill-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .pill{font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;padding:7px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;min-height:36px}
 .pill:hover{border-color:var(--accent);color:var(--accent)}
@@ -51,31 +46,41 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .pill.done{border-color:var(--green);color:var(--green);background:var(--green-l)}
 .pill.done.active{background:var(--green);color:#fff}
 
-/* CARD */
 .card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:0 2px 18px rgba(0,0,0,.07);overflow:hidden;margin-bottom:14px}
 .card-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .seg-tag{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);background:var(--accent-l);padding:3px 10px;border-radius:999px;white-space:nowrap}
 .seg-ttl{font-size:13px;color:var(--muted)}
-
-.err-item .eword-zh{font-size:13px;color:var(--accent);font-weight:500;margin-top:1px}
 .zh-sentence{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;width:100%;padding-top:4px;border-top:1px dashed var(--border)}
 
-/* SCRIPT */
 .script{padding:16px;font-size:clamp(15px,4.2vw,17px);line-height:2;color:var(--text)}
 .w{display:inline;cursor:default;padding:1px 0;border-radius:3px;transition:background .1s}
 .w.wrong{background:var(--red-l);color:var(--red);border-bottom:2px solid var(--red);cursor:pointer}
 .w.wrong:active{background:#f8c5bf}
 .w.ok{color:var(--green)}
 
-/* LIVE TRANSCRIPT BOX */
-.live-box{margin:0 16px 14px;background:var(--surface2);border-radius:10px;padding:10px 14px;min-height:44px;font-size:14px;line-height:1.7;color:var(--muted);border:1px solid var(--border);transition:border-color .2s}
-.live-box.listening{border-color:var(--red);color:var(--text)}
-.live-box .live-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+/* LIVE BOX — hidden when idle, shown only during/after recording */
+.live-box{
+  margin:0 16px 14px;
+  background:var(--surface2);
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:14px;
+  line-height:1.7;
+  border:1px solid var(--border);
+  transition:border-color .2s;
+  display:none; /* hidden until recording starts */
+}
+.live-box.visible{display:block}
+.live-box.listening{border-color:var(--red)}
+.live-label{
+  font-size:10px;font-weight:600;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:6px;display:flex;align-items:center;gap:6px;
+}
 .live-box.listening .live-label{color:var(--red)}
+.live-content{color:var(--text);min-height:20px;word-break:break-word}
 .interim-text{color:var(--muted);font-style:italic}
-.final-text{color:var(--text)}
 
-/* DESKTOP CONTROLS */
 .desk-ctrl{display:none;padding:12px 16px;background:var(--surface2);border-top:1px solid var(--border);align-items:center;gap:10px;flex-wrap:wrap}
 .btn-rd{display:flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;padding:10px 22px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;transition:all .15s}
 .btn-rd:hover{background:#245143}
@@ -87,7 +92,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .t-desk{font-family:'DM Mono',monospace;font-size:14px;color:var(--muted);min-width:44px}
 .t-desk.rec{color:var(--red)}
 
-/* RESULT PANEL */
 .result{padding:16px;border-top:1px solid var(--border);display:none}
 .result.show{display:block}
 .score-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
@@ -99,6 +103,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .err-list{display:flex;flex-direction:column;gap:8px}
 .err-item{background:var(--red-l);border-radius:10px;padding:12px 14px;border-left:3px solid var(--red)}
 .err-item .esaid{font-size:16px;color:var(--red);font-weight:600}
+.err-item .eword-zh{font-size:13px;color:var(--accent);font-weight:500;margin-top:1px}
 .err-item .eheard{font-size:13px;color:var(--amber);margin-top:2px}
 .tts-btn{display:inline-flex;align-items:center;gap:5px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;border:1.5px solid var(--accent);background:var(--accent-l);color:var(--accent);cursor:pointer;margin-top:8px;min-height:36px}
 .tts-btn:active{background:var(--accent);color:#fff}
@@ -107,7 +112,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .retry-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;padding:9px 18px;border-radius:999px;border:1.5px solid var(--accent);background:var(--accent-l);color:var(--accent);cursor:pointer;margin-top:4px}
 .retry-btn:active{background:var(--accent);color:#fff}
 
-/* MOBILE STICKY BOTTOM */
 .sticky{position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--surface);border-top:1px solid var(--border);padding:10px 12px max(10px,env(safe-area-inset-bottom,10px));box-shadow:0 -4px 20px rgba(0,0,0,.09)}
 .bot-row{display:flex;align-items:center;gap:8px;max-width:820px;margin:0 auto}
 .btn-rec-big{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;padding:13px 16px;border-radius:999px;border:none;background:var(--accent);color:#fff;cursor:pointer;min-height:52px;-webkit-tap-highlight-color:transparent;transition:all .15s}
@@ -190,18 +194,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 </div>
 
 <script>
-// ── SENTENCE DATA ──────────────────────────────────────────────────────────
 const SEGS = [
-  // Opening
   {g:"Opening",t:"Hello everyone,",zh:"大家好，"},
   {g:"Opening",t:"I am a 29-year-old educator standing at a critical milestone in my career.",zh:"我是一位 29 歲的教育工作者，正站在職涯的關鍵里程碑上。"},
   {g:"Opening",t:"I hold a Master's degree in Information Management from National Chiayi University,",zh:"我擁有國立嘉義大學資訊管理學系碩士學位，"},
   {g:"Opening",t:"which has equipped me with strong logical analysis and programming skills.",zh:"這讓我具備了紮實的邏輯分析與程式設計能力。"},
-  // Experience
   {g:"Experience",t:"Currently, I serve as the Registration Section Chief and a computer teacher at Xinzhuang Elementary School in Kaohsiung.",zh:"目前，我擔任高雄市新莊國小的教務組長，同時也是一名電腦老師。"},
   {g:"Experience",t:"Before this, I worked as the Information Section Chief at Zhongxiao Elementary School in Taipei,",zh:"在此之前，我曾任職於台北市忠孝國小的資訊組長，"},
   {g:"Experience",t:"where I immersed myself in Maker education, including 3D printing, laser cutting, and VR.",zh:"在那裡我深入投入自造者教育，包含 3D 列印、雷射切割與 VR 虛擬實境。"},
-  // Problem
   {g:"Problem",t:"In my current role on the frontlines of school administration,",zh:"在學校行政的第一線工作中，"},
   {g:"Problem",t:"I have identified a significant problem in our education system: administrative friction.",zh:"我發現了教育系統中一個重要的問題：行政摩擦。"},
   {g:"Problem",t:"To solve this, I have dedicated myself to creating administrative automation tools.",zh:"為了解決這個問題，我致力於開發行政自動化工具。"},
@@ -209,22 +209,18 @@ const SEGS = [
   {g:"Problem",t:"which are expected to reduce repetitive administrative work by 70%.",zh:"預計可將重複性行政工作減少 70%。"},
   {g:"Problem",t:"My philosophy is simple: by using technology to improve efficiency,",zh:"我的理念很簡單：透過科技提升效率，"},
   {g:"Problem",t:"we can give professional time back to teachers so they can focus on education.",zh:"我們就能把「專業時間」還給老師，讓他們專注於教育。"},
-  // UDL
   {g:"UDL",t:"In the classroom, I am deeply passionate about Universal Design for Learning.",zh:"在課堂上，我對「全方位學習設計（UDL）」充滿熱忱。"},
   {g:"UDL",t:"I have developed gamified educational tools, such as the English Tower Defense game and Typing Hero,",zh:"我開發了遊戲化教學工具，例如「英語塔防遊戲」和「打字英雄」，"},
   {g:"UDL",t:"ensuring that students of varying abilities can all experience success.",zh:"確保不同能力的學生都能體驗到成功的滋味。"},
   {g:"UDL",t:"I also integrated Google AI to create a pronunciation practice website to provide instant feedback for students.",zh:"我也整合 Google AI 建立了發音練習網站，為學生提供即時回饋。"},
   {g:"UDL",t:"My practical AI experience even traces back to a nutrition management project using image recognition and IoT robots.",zh:"我的 AI 實務經驗甚至可以追溯到一個利用影像辨識與物聯網機器人的營養管理專案。"},
-  // Motivation
   {g:"Motivation",t:"This brings me to my strong motivation for the 1-8-29 Australia Adventure: AI Classroom Lab project.",zh:"這讓我對「1-8-29 澳洲探索：AI 教學實驗室」計畫抱有強烈的動機。"},
   {g:"Motivation",t:"I aim to learn from the New South Wales Department of Education, a recognized global leader in AI and STEM.",zh:"我希望向新南威爾斯州教育部學習，它是全球公認的 AI 與 STEM 領導者。"},
   {g:"Motivation",t:"I am particularly inspired by their School Administration Reduction Program",zh:"我對他們的「學校行政減量計畫」特別感到受啟發，"},
   {g:"Motivation",t:"and want to study how they successfully simplified administrative workflows.",zh:"並希望研究他們如何成功地簡化行政工作流程。"},
-  // Learning
   {g:"Learning",t:"Furthermore, through programs at the University of Sydney and UNSW,",zh:"此外，透過雪梨大學和新南威爾斯大學的課程，"},
   {g:"Learning",t:"I want to learn how to standardize my UDL tools",zh:"我希望學習如何將我的 UDL 工具標準化，"},
   {g:"Learning",t:"and teach Computational Thinking to elementary students more effectively.",zh:"以及如何更有效地向國小學生教授運算思維。"},
-  // Goals
   {g:"Goals",t:"Upon returning to Taiwan, my goal is not just to share experiences but to drive systemic change.",zh:"返台後，我的目標不只是分享經驗，而是推動系統性的改變。"},
   {g:"Goals",t:"I plan to release an AI Empowerment Toolbox for registration chiefs across Kaohsiung.",zh:"我計畫為全高雄的教務組長發布一套「AI 賦能工具箱」。"},
   {g:"Goals",t:"I will also transform a vacant classroom into an inclusive AI plus STEM Maker Center.",zh:"我也將把一間空置教室改造成融合共融理念的「AI＋STEM 自造中心」。"},
@@ -233,7 +229,6 @@ const SEGS = [
   {g:"Goals",t:"Thank you for your time.",zh:"感謝各位的聆聽。"},
 ];
 
-// ── WORD DICTIONARY ───────────────────────────────────────────────────────
 const WORD_DICT = {
   educator:"教育工作者", milestone:"里程碑", career:"職涯", degree:"學位",
   management:"管理", university:"大學", logical:"邏輯的", analysis:"分析",
@@ -279,9 +274,9 @@ function compareWords(expected, heard) {
   for (let ei = 0; ei < ew.length; ei++) {
     let found = false;
     for (let la = hi; la < Math.min(hi+6, hw.length); la++) {
-      if (hw[la] === ew[ei]) { res.push({word:ew[ei],orig:ew[ei],status:'ok'}); hi=la+1; found=true; break; }
+      if (hw[la] === ew[ei]) { res.push({word:ew[ei],status:'ok'}); hi=la+1; found=true; break; }
     }
-    if (!found) res.push({word:ew[ei],orig:ew[ei],status:'wrong',heard:hw[hi]||''});
+    if (!found) res.push({word:ew[ei],status:'wrong',heard:hw[hi]||''});
   }
   return res;
 }
@@ -289,8 +284,6 @@ function compareWords(expected, heard) {
 function renderScript(seg, comparison) {
   const parts = seg.t.split(/(\s+)/);
   let html = '', wi = 0;
-  const origToks = [];
-  parts.forEach(p => { if (!/^\s+$/.test(p) && norm(p)) origToks.push(p); });
   parts.forEach(part => {
     if (/^\s+$/.test(part)) { html += part; return; }
     if (!norm(part)) { html += esc(part); return; }
@@ -304,7 +297,11 @@ function renderScript(seg, comparison) {
   return html;
 }
 
-// ── BUILD UI ────────────────────────────────────────────────────────────────
+function wordZh(w) {
+  const key = w.toLowerCase().replace(/[^a-z0-9]/g,'');
+  return WORD_DICT[key] || null;
+}
+
 function isMob() { return window.innerWidth < 600; }
 function updateNavVis() {
   const nav = document.getElementById('pillNav');
@@ -356,11 +353,6 @@ function goTo(i) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function wordZh(w) {
-  const key = w.toLowerCase().replace(/[^a-z0-9]/g,'');
-  return WORD_DICT[key] || null;
-}
-
 function render() {
   const seg = SEGS[cur];
   const res = segResults[cur];
@@ -393,7 +385,7 @@ function render() {
           return `
           <div class="err-item">
             <div class="esaid">${esc(e.word)}</div>
-            ${zh ? `<div class="eword-zh">${esc(zh)}</div>` : ''}
+            ${zh?`<div class="eword-zh">${esc(zh)}</div>`:''}
             ${e.heard?`<div class="eheard">電腦聽到：${esc(e.heard)}</div>`:`<div class="eheard">（未偵測到）</div>`}
             <button class="tts-btn" onclick="speakWord('${esc(e.word)}')">▶ 聽正確發音</button>
           </div>`;
@@ -413,7 +405,7 @@ function render() {
       <div class="script">${renderScript(seg, res?res.comparison:null)}</div>
       <div class="live-box" id="liveBox">
         <div class="live-label" id="liveLabel">即時辨識</div>
-        <div id="liveText" style="font-size:14px;min-height:20px;color:var(--muted)">按下錄音開始</div>
+        <div class="live-content" id="liveText"></div>
       </div>
       <div style="padding:0 16px 10px;text-align:right">
         <button onclick="toggleDebug()" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">🔍 除錯面板</button>
@@ -442,7 +434,7 @@ function render() {
   });
 }
 
-// ── DEBUG LOG ────────────────────────────────────────────────────────────────
+// ── DEBUG ────────────────────────────────────────────────────────────────────
 let debugLines = [];
 function dbg(msg) {
   const t = new Date().toLocaleTimeString('zh-TW',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -451,14 +443,19 @@ function dbg(msg) {
   const el = document.getElementById('debugLog');
   if (el) el.textContent = debugLines.join('\n');
 }
+function toggleDebug() {
+  const p = document.getElementById('debugPanel');
+  if (p) p.style.display = p.style.display==='none'?'block':'none';
+}
 
-// ── RECORDING — 核心邏輯修正 ───────────────────────────────────────────────
+// ── RECORDING ────────────────────────────────────────────────────────────────
 function toggleRecord() { isRec ? stopRecord() : startRecord(); }
 
 function startRecord() {
   if (!SR) { alert('瀏覽器不支援語音辨識，請改用 Chrome 或 Edge。'); return; }
   finalTx = ''; interimTx = '';
   isRec = true; shouldKeepRecording = true;
+  srRestartCount = 0;
   audioBlob = null; audioUrl = null;
   const pm = document.getElementById('playBtnMob'); if (pm) pm.disabled = true;
   const pd = document.getElementById('playBtnDesk'); if (pd) pd.disabled = true;
@@ -467,15 +464,11 @@ function startRecord() {
   syncRecUI(true);
   dbg('▶ startRecord()');
 
-  // 偵測是否為 Android 系統以解決麥克風衝突問題
   const isAndroid = /Android/i.test(navigator.userAgent);
-
   if (isAndroid) {
-    dbg('Android 系統偵測：為避免麥克風衝突，僅啟動 SpeechRecognition');
-    // 在 Android 設備上直接啟動 SpeechRecognition，捨棄 MediaRecorder
+    dbg('Android 裝置：直接啟動 SR（不佔用 MediaRecorder）');
     startSRLoop();
   } else {
-    // 非 Android 設備，維持原本雙軌並行
     navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
       dbg('✓ 麥克風授權成功');
       startAudioRec(stream);
@@ -483,8 +476,7 @@ function startRecord() {
     }).catch(err=>{
       dbg('✗ 麥克風錯誤: ' + err.message);
       isRec = false; shouldKeepRecording = false;
-      syncRecUI(false);
-      clearInterval(timerInt);
+      syncRecUI(false); clearInterval(timerInt);
       alert('無法取得麥克風：' + err.message);
     });
   }
@@ -492,28 +484,20 @@ function startRecord() {
 
 let srRestartCount = 0;
 function startSRLoop() {
-  if (!shouldKeepRecording) { dbg('— SR loop stopped (flag off)'); return; }
+  if (!shouldKeepRecording) { dbg('— SR loop stopped'); return; }
   srRestartCount++;
-  dbg(`SR loop #${srRestartCount} start`);
-
-  try {
-    recognition = new SR();
-  } catch(e) {
-    dbg('✗ new SR() 失敗: ' + e.message); return;
-  }
+  dbg(`SR loop #${srRestartCount}`);
+  try { recognition = new SR(); }
+  catch(e) { dbg('✗ new SR() 失敗: '+e.message); return; }
 
   recognition.lang = 'en-US';
   recognition.continuous = false;
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;
 
-  recognition.onstart = () => {
-    dbg('SR onstart fired');
-    updateLiveBox(finalTx, '');
-  };
-
-  recognition.onsoundstart = () => dbg('SR onsoundstart — 偵測到聲音');
-  recognition.onspeechstart = () => dbg('SR onspeechstart — 偵測到語音');
+  recognition.onstart = () => { dbg('SR onstart'); updateLiveBox(finalTx,''); };
+  recognition.onsoundstart = () => dbg('SR 偵測到聲音');
+  recognition.onspeechstart = () => dbg('SR 偵測到語音');
 
   recognition.onresult = e => {
     let interim = '';
@@ -521,48 +505,34 @@ function startSRLoop() {
       if (e.results[i].isFinal) {
         const txt = e.results[i][0].transcript;
         finalTx += txt + ' ';
-        dbg('SR final: "' + txt + '"');
-      } else {
-        interim += e.results[i][0].transcript;
-      }
+        dbg('final: "'+txt+'"');
+      } else interim += e.results[i][0].transcript;
     }
     interimTx = interim;
     updateLiveBox(finalTx, interim);
   };
 
   recognition.onerror = e => {
-    dbg('SR error: ' + e.error);
-    if (e.error === 'no-speech' || e.error === 'aborted' || e.error === 'audio-capture') {
-      return;
-    }
-    if (e.error === 'not-allowed') {
+    dbg('SR error: '+e.error);
+    if (e.error==='not-allowed') {
       alert('麥克風權限被拒絕，請在瀏覽器設定中允許麥克風存取。');
       shouldKeepRecording = false;
-    }
-    if (e.error === 'network') {
-      dbg('網路錯誤 — 將重試');
     }
   };
 
   recognition.onend = () => {
-    dbg('SR onend (shouldKeep=' + shouldKeepRecording + ', finalTx="' + finalTx.trim().slice(0,30) + '")');
+    dbg('SR onend | keep='+shouldKeepRecording+' | collected="'+finalTx.trim().slice(0,40)+'"');
     if (shouldKeepRecording) {
       setTimeout(startSRLoop, 150);
     } else {
-      const heard = (finalTx + ' ' + interimTx).trim();
-      dbg('Final heard: "' + heard.slice(0,60) + '"');
+      const heard = (finalTx+' '+interimTx).trim();
       if (heard) processResult(heard);
-      else updateLiveBox('', '');
+      else updateLiveBox('','');
     }
   };
 
-  try {
-    recognition.start();
-    dbg('SR .start() called');
-  } catch(e) {
-    dbg('✗ SR .start() 拋錯: ' + e.message);
-    setTimeout(startSRLoop, 500);
-  }
+  try { recognition.start(); dbg('SR .start()'); }
+  catch(e) { dbg('✗ .start() 拋錯: '+e.message); setTimeout(startSRLoop,500); }
 }
 
 function stopRecord() {
@@ -573,12 +543,13 @@ function stopRecord() {
   syncRecUI(false);
   if (recognition) {
     try { recognition.stop(); } catch(e){ dbg('stop() err: '+e.message); }
+    // onend will call processResult
   } else {
-    const heard = (finalTx + ' ' + interimTx).trim();
+    const heard = (finalTx+' '+interimTx).trim();
     if (heard) processResult(heard);
     else updateLiveBox('','');
   }
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+  if (mediaRecorder && mediaRecorder.state!=='inactive') {
     mediaRecorder.stop();
     if (mediaRecorder._stream) mediaRecorder._stream.getTracks().forEach(t=>t.stop());
   }
@@ -591,20 +562,17 @@ function startAudioRec(stream) {
     const chunks = [];
     mr.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
     mr.onstop = () => {
-      if (chunks.length === 0) { dbg('AudioRec: no chunks'); return; }
-      audioBlob = new Blob(chunks, {type:'audio/webm'});
+      if (!chunks.length) { dbg('AudioRec: no chunks'); return; }
+      audioBlob = new Blob(chunks,{type:'audio/webm'});
       audioUrl = URL.createObjectURL(audioBlob);
-      dbg('AudioRec: saved ' + chunks.length + ' chunks');
+      dbg('AudioRec: '+chunks.length+' chunks saved');
       const pm = document.getElementById('playBtnMob'); if (pm) pm.disabled = false;
       const pd = document.getElementById('playBtnDesk'); if (pd) pd.disabled = false;
     };
     mr.start(500);
-    mediaRecorder = mr;
-    mediaRecorder._stream = stream;
+    mediaRecorder = mr; mediaRecorder._stream = stream;
     dbg('AudioRec started');
-  } catch(e) {
-    dbg('AudioRec error: ' + e.message);
-  }
+  } catch(e) { dbg('AudioRec error: '+e.message); }
 }
 
 function processResult(heard) {
@@ -612,7 +580,7 @@ function processResult(heard) {
   const comparison = compareWords(seg.t, heard);
   const correct = comparison.filter(c=>c.status==='ok').length;
   const accuracy = Math.round((correct/comparison.length)*100);
-  segResults[cur] = {transcript: heard.trim(), comparison, accuracy};
+  segResults[cur] = {transcript:heard.trim(), comparison, accuracy};
   buildNav(); render(); updateStats();
 }
 
@@ -623,69 +591,75 @@ function retryThis() {
   buildNav(); render();
 }
 
-// ── LIVE BOX ────────────────────────────────────────────────────────────────
+// ── LIVE BOX ─────────────────────────────────────────────────────────────────
 function updateLiveBox(final_, interim_) {
   const box = document.getElementById('liveBox');
   const lbl = document.getElementById('liveLabel');
   const txt = document.getElementById('liveText');
   if (!box) return;
+
+  const hasContent = (final_||'').trim() || (interim_||'').trim();
+
   if (isRec) {
-    box.classList.add('listening');
+    // Show box as soon as recording starts
+    box.classList.add('visible','listening');
     lbl.innerHTML = '<span class="rec-dot-anim">●</span> 錄音中…';
+    txt.innerHTML = hasContent
+      ? esc(final_||'') + (interim_?`<span class="interim-text"> ${esc(interim_)}</span>`:'')
+      : '<span style="opacity:.4;font-style:italic">等待語音…</span>';
   } else {
     box.classList.remove('listening');
     lbl.textContent = '電腦聽到的內容';
+    if (hasContent) {
+      box.classList.add('visible');
+      txt.innerHTML = esc((final_+' '+interim_).trim());
+    } else {
+      // Nothing heard — hide the box entirely
+      box.classList.remove('visible');
+    }
   }
-  const display = (final_||'') + (interim_ ? `<span class="interim-text"> ${esc(interim_)}</span>` : '');
-  txt.innerHTML = display || (isRec ? '<span style="opacity:.5">等待語音…</span>' : '按下錄音開始');
 }
 
 function syncRecUI(on) {
   ['recBtnMob','recBtnDesk'].forEach(id=>{
-    const b = document.getElementById(id); if (b) b.classList.toggle('rec',on);
+    const b = document.getElementById(id); if(b) b.classList.toggle('rec',on);
   });
   const lm = document.getElementById('recLblMob');
   const ld = document.getElementById('recLblDesk');
-  if (lm) lm.textContent = on ? '停止錄音' : '開始錄音';
-  if (ld) ld.textContent = on ? 'Stop Recording' : 'Start Recording';
+  if (lm) lm.textContent = on?'停止錄音':'開始錄音';
+  if (ld) ld.textContent = on?'Stop Recording':'Start Recording';
   const dm = document.getElementById('recDotMob');
-  if (dm) dm.classList.toggle('rec-dot-anim', on);
-  if (!on) updateLiveBox(finalTx, '');
+  if (dm) dm.classList.toggle('rec-dot-anim',on);
+  if (!on) updateLiveBox(finalTx,'');
 }
 
 function updateTimer() {
-  const m = Math.floor(timerSec/60), s = timerSec%60;
-  const txt = `${m}:${s.toString().padStart(2,'0')}`;
-  const mob = document.getElementById('timerMob');
-  const desk = document.getElementById('timerDesk');
-  if (mob) { mob.textContent = txt; mob.classList.toggle('rec',isRec); }
-  if (desk) { desk.textContent = txt; desk.classList.toggle('rec',isRec); }
+  const m=Math.floor(timerSec/60), s=timerSec%60;
+  const txt=`${m}:${s.toString().padStart(2,'0')}`;
+  const mob=document.getElementById('timerMob');
+  const desk=document.getElementById('timerDesk');
+  if(mob){mob.textContent=txt;mob.classList.toggle('rec',isRec);}
+  if(desk){desk.textContent=txt;desk.classList.toggle('rec',isRec);}
 }
 
 function updateStats() {
-  const done = Object.keys(segResults).length;
-  const scores = Object.values(segResults).map(r=>r.accuracy);
-  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
-  const errs = Object.values(segResults).reduce((acc,r)=>acc+r.comparison.filter(c=>c.status==='wrong').length,0);
-  document.getElementById('doneCount').textContent = done;
-  document.getElementById('avgScore').textContent = avg !== null ? avg+'%' : '—';
-  document.getElementById('totalErrors').textContent = errs;
-  document.getElementById('progressCircle').style.strokeDashoffset = 113.1*(1-done/TOTAL);
-  document.getElementById('progressText').textContent = `${done} / ${TOTAL}`;
+  const done=Object.keys(segResults).length;
+  const scores=Object.values(segResults).map(r=>r.accuracy);
+  const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):null;
+  const errs=Object.values(segResults).reduce((acc,r)=>acc+r.comparison.filter(c=>c.status==='wrong').length,0);
+  document.getElementById('doneCount').textContent=done;
+  document.getElementById('avgScore').textContent=avg!==null?avg+'%':'—';
+  document.getElementById('totalErrors').textContent=errs;
+  document.getElementById('progressCircle').style.strokeDashoffset=113.1*(1-done/TOTAL);
+  document.getElementById('progressText').textContent=`${done} / ${TOTAL}`;
 }
 
-function toggleDebug() {
-  const p = document.getElementById('debugPanel');
-  if (p) p.style.display = p.style.display === 'none' ? 'block' : 'none';
-}
+function playMyAudio(){if(audioUrl)new Audio(audioUrl).play();}
+function speakWord(w){const u=new SpeechSynthesisUtterance(w);u.lang='en-US';u.rate=.82;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function speakFull(){const u=new SpeechSynthesisUtterance(SEGS[cur].t);u.lang='en-US';u.rate=.9;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}
+function prevSeg(){if(cur>0)goTo(cur-1);}
+function nextSeg(){if(cur<TOTAL-1)goTo(cur+1);}
 
-function playMyAudio() { if (audioUrl) new Audio(audioUrl).play(); }
-function speakWord(w) { const u=new SpeechSynthesisUtterance(w);u.lang='en-US';u.rate=.82;window.speechSynthesis.cancel();window.speechSynthesis.speak(u); }
-function speakFull() { const u=new SpeechSynthesisUtterance(SEGS[cur].t);u.lang='en-US';u.rate=.9;window.speechSynthesis.cancel();window.speechSynthesis.speak(u); }
-function prevSeg() { if(cur>0) goTo(cur-1); }
-function nextSeg() { if(cur<TOTAL-1) goTo(cur+1); }
-
-// Swipe
 let tx=0;
 document.addEventListener('touchstart',e=>{tx=e.changedTouches[0].clientX},{passive:true});
 document.addEventListener('touchend',e=>{
