@@ -57,6 +57,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 .seg-tag{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);background:var(--accent-l);padding:3px 10px;border-radius:999px;white-space:nowrap}
 .seg-ttl{font-size:13px;color:var(--muted)}
 
+.err-item .eword-zh{font-size:13px;color:var(--accent);font-weight:500;margin-top:1px}
+.zh-sentence{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6;width:100%;padding-top:4px;border-top:1px dashed var(--border)}
+
 /* SCRIPT */
 .script{padding:16px;font-size:clamp(15px,4.2vw,17px);line-height:2;color:var(--text)}
 .w{display:inline;cursor:default;padding:1px 0;border-radius:3px;transition:background .1s}
@@ -190,45 +193,74 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);-web
 // ── SENTENCE DATA ──────────────────────────────────────────────────────────
 const SEGS = [
   // Opening
-  {g:"Opening",t:"Hello everyone,"},
-  {g:"Opening",t:"I am a 29-year-old educator standing at a critical milestone in my career."},
-  {g:"Opening",t:"I hold a Master's degree in Information Management from National Chiayi University,"},
-  {g:"Opening",t:"which has equipped me with strong logical analysis and programming skills."},
+  {g:"Opening",t:"Hello everyone,",zh:"大家好，"},
+  {g:"Opening",t:"I am a 29-year-old educator standing at a critical milestone in my career.",zh:"我是一位 29 歲的教育工作者，正站在職涯的關鍵里程碑上。"},
+  {g:"Opening",t:"I hold a Master's degree in Information Management from National Chiayi University,",zh:"我擁有國立嘉義大學資訊管理學系碩士學位，"},
+  {g:"Opening",t:"which has equipped me with strong logical analysis and programming skills.",zh:"這讓我具備了紮實的邏輯分析與程式設計能力。"},
   // Experience
-  {g:"Experience",t:"Currently, I serve as the Registration Section Chief and a computer teacher at Xinzhuang Elementary School in Kaohsiung."},
-  {g:"Experience",t:"Before this, I worked as the Information Section Chief at Zhongxiao Elementary School in Taipei,"},
-  {g:"Experience",t:"where I immersed myself in Maker education, including 3D printing, laser cutting, and VR."},
+  {g:"Experience",t:"Currently, I serve as the Registration Section Chief and a computer teacher at Xinzhuang Elementary School in Kaohsiung.",zh:"目前，我擔任高雄市新莊國小的教務組長，同時也是一名電腦老師。"},
+  {g:"Experience",t:"Before this, I worked as the Information Section Chief at Zhongxiao Elementary School in Taipei,",zh:"在此之前，我曾任職於台北市忠孝國小的資訊組長，"},
+  {g:"Experience",t:"where I immersed myself in Maker education, including 3D printing, laser cutting, and VR.",zh:"在那裡我深入投入自造者教育，包含 3D 列印、雷射切割與 VR 虛擬實境。"},
   // Problem
-  {g:"Problem",t:"In my current role on the frontlines of school administration,"},
-  {g:"Problem",t:"I have identified a significant problem in our education system: administrative friction."},
-  {g:"Problem",t:"To solve this, I have dedicated myself to creating administrative automation tools."},
-  {g:"Problem",t:"For instance, I developed a Classroom Seat Chart System and an automated web tool for learning assistance programs,"},
-  {g:"Problem",t:"which are expected to reduce repetitive administrative work by 70%."},
-  {g:"Problem",t:"My philosophy is simple: by using technology to improve efficiency,"},
-  {g:"Problem",t:"we can give professional time back to teachers so they can focus on education."},
+  {g:"Problem",t:"In my current role on the frontlines of school administration,",zh:"在學校行政的第一線工作中，"},
+  {g:"Problem",t:"I have identified a significant problem in our education system: administrative friction.",zh:"我發現了教育系統中一個重要的問題：行政摩擦。"},
+  {g:"Problem",t:"To solve this, I have dedicated myself to creating administrative automation tools.",zh:"為了解決這個問題，我致力於開發行政自動化工具。"},
+  {g:"Problem",t:"For instance, I developed a Classroom Seat Chart System and an automated web tool for learning assistance programs,",zh:"例如，我開發了「班級座位表系統」和學習扶助計畫自動化網頁工具，"},
+  {g:"Problem",t:"which are expected to reduce repetitive administrative work by 70%.",zh:"預計可將重複性行政工作減少 70%。"},
+  {g:"Problem",t:"My philosophy is simple: by using technology to improve efficiency,",zh:"我的理念很簡單：透過科技提升效率，"},
+  {g:"Problem",t:"we can give professional time back to teachers so they can focus on education.",zh:"我們就能把「專業時間」還給老師，讓他們專注於教育。"},
   // UDL
-  {g:"UDL",t:"In the classroom, I am deeply passionate about Universal Design for Learning."},
-  {g:"UDL",t:"I have developed gamified educational tools, such as the English Tower Defense game and Typing Hero,"},
-  {g:"UDL",t:"ensuring that students of varying abilities can all experience success."},
-  {g:"UDL",t:"I also integrated Google AI to create a pronunciation practice website to provide instant feedback for students."},
-  {g:"UDL",t:"My practical AI experience even traces back to a nutrition management project using image recognition and IoT robots."},
+  {g:"UDL",t:"In the classroom, I am deeply passionate about Universal Design for Learning.",zh:"在課堂上，我對「全方位學習設計（UDL）」充滿熱忱。"},
+  {g:"UDL",t:"I have developed gamified educational tools, such as the English Tower Defense game and Typing Hero,",zh:"我開發了遊戲化教學工具，例如「英語塔防遊戲」和「打字英雄」，"},
+  {g:"UDL",t:"ensuring that students of varying abilities can all experience success.",zh:"確保不同能力的學生都能體驗到成功的滋味。"},
+  {g:"UDL",t:"I also integrated Google AI to create a pronunciation practice website to provide instant feedback for students.",zh:"我也整合 Google AI 建立了發音練習網站，為學生提供即時回饋。"},
+  {g:"UDL",t:"My practical AI experience even traces back to a nutrition management project using image recognition and IoT robots.",zh:"我的 AI 實務經驗甚至可以追溯到一個利用影像辨識與物聯網機器人的營養管理專案。"},
   // Motivation
-  {g:"Motivation",t:"This brings me to my strong motivation for the 1-8-29 Australia Adventure: AI Classroom Lab project."},
-  {g:"Motivation",t:"I aim to learn from the New South Wales Department of Education, a recognized global leader in AI and STEM."},
-  {g:"Motivation",t:"I am particularly inspired by their School Administration Reduction Program"},
-  {g:"Motivation",t:"and want to study how they successfully simplified administrative workflows."},
+  {g:"Motivation",t:"This brings me to my strong motivation for the 1-8-29 Australia Adventure: AI Classroom Lab project.",zh:"這讓我對「1-8-29 澳洲探索：AI 教學實驗室」計畫抱有強烈的動機。"},
+  {g:"Motivation",t:"I aim to learn from the New South Wales Department of Education, a recognized global leader in AI and STEM.",zh:"我希望向新南威爾斯州教育部學習，它是全球公認的 AI 與 STEM 領導者。"},
+  {g:"Motivation",t:"I am particularly inspired by their School Administration Reduction Program",zh:"我對他們的「學校行政減量計畫」特別感到受啟發，"},
+  {g:"Motivation",t:"and want to study how they successfully simplified administrative workflows.",zh:"並希望研究他們如何成功地簡化行政工作流程。"},
   // Learning
-  {g:"Learning",t:"Furthermore, through programs at the University of Sydney and UNSW,"},
-  {g:"Learning",t:"I want to learn how to standardize my UDL tools"},
-  {g:"Learning",t:"and teach Computational Thinking to elementary students more effectively."},
+  {g:"Learning",t:"Furthermore, through programs at the University of Sydney and UNSW,",zh:"此外，透過雪梨大學和新南威爾斯大學的課程，"},
+  {g:"Learning",t:"I want to learn how to standardize my UDL tools",zh:"我希望學習如何將我的 UDL 工具標準化，"},
+  {g:"Learning",t:"and teach Computational Thinking to elementary students more effectively.",zh:"以及如何更有效地向國小學生教授運算思維。"},
   // Goals
-  {g:"Goals",t:"Upon returning to Taiwan, my goal is not just to share experiences but to drive systemic change."},
-  {g:"Goals",t:"I plan to release an AI Empowerment Toolbox for registration chiefs across Kaohsiung."},
-  {g:"Goals",t:"I will also transform a vacant classroom into an inclusive AI plus STEM Maker Center."},
-  {g:"Goals",t:"Ultimately, I aspire to become an AI-leading Principal"},
-  {g:"Goals",t:"who utilizes technology to bridge resource gaps and redefine campus digital transformation."},
-  {g:"Goals",t:"Thank you for your time."},
+  {g:"Goals",t:"Upon returning to Taiwan, my goal is not just to share experiences but to drive systemic change.",zh:"返台後，我的目標不只是分享經驗，而是推動系統性的改變。"},
+  {g:"Goals",t:"I plan to release an AI Empowerment Toolbox for registration chiefs across Kaohsiung.",zh:"我計畫為全高雄的教務組長發布一套「AI 賦能工具箱」。"},
+  {g:"Goals",t:"I will also transform a vacant classroom into an inclusive AI plus STEM Maker Center.",zh:"我也將把一間空置教室改造成融合共融理念的「AI＋STEM 自造中心」。"},
+  {g:"Goals",t:"Ultimately, I aspire to become an AI-leading Principal",zh:"最終，我渴望成為一位以 AI 領航的校長，"},
+  {g:"Goals",t:"who utilizes technology to bridge resource gaps and redefine campus digital transformation.",zh:"善用科技縮短資源落差，重新定義校園數位轉型。"},
+  {g:"Goals",t:"Thank you for your time.",zh:"感謝各位的聆聽。"},
 ];
+
+// ── WORD DICTIONARY (key words in the script → zh translation) ─────────────
+const WORD_DICT = {
+  // Core nouns / titles
+  educator:"教育工作者", milestone:"里程碑", career:"職涯", degree:"學位",
+  management:"管理", university:"大學", logical:"邏輯的", analysis:"分析",
+  programming:"程式設計", skills:"技能", registration:"教務", chief:"組長",
+  elementary:"國小", kaohsiung:"高雄", taipei:"台北", information:"資訊",
+  maker:"自造者", printing:"列印", cutting:"切割", administration:"行政",
+  friction:"摩擦（阻力）", automation:"自動化", tools:"工具", system:"系統",
+  automated:"自動化的", repetitive:"重複性的", efficiency:"效率",
+  professional:"專業的", philosophy:"理念", passionate:"充滿熱情的",
+  universal:"全方位的", design:"設計", learning:"學習", gamified:"遊戲化的",
+  educational:"教育性的", abilities:"能力", success:"成功", integrated:"整合",
+  pronunciation:"發音", instant:"即時的", feedback:"回饋", practical:"實務的",
+  nutrition:"營養", recognition:"辨識", motivation:"動機", adventure:"探索",
+  recognized:"公認的", global:"全球", leader:"領導者", inspired:"受啟發",
+  simplified:"簡化的", workflows:"工作流程", standardize:"標準化",
+  computational:"運算的", thinking:"思維", effectively:"有效地",
+  systemic:"系統性的", change:"改變", release:"發布", empowerment:"賦能",
+  toolbox:"工具箱", transform:"改造", vacant:"空置的", inclusive:"共融的",
+  aspire:"渴望", principal:"校長", utilizes:"善用", technology:"科技",
+  bridge:"縮短（差距）", gaps:"落差", redefine:"重新定義", digital:"數位",
+  transformation:"轉型", immersed:"沉浸投入",
+  // Phrases / specific terms
+  "3d":"3D（三維）", vr:"VR（虛擬實境）", ai:"AI（人工智慧）",
+  stem:"STEM（科學科技工程數學）", iot:"IoT（物聯網）", udl:"UDL（全方位學習設計）",
+  unsw:"新南威爾斯大學", sydney:"雪梨",
+};
 
 const TOTAL = SEGS.length;
 let cur = 0, isRec = false, timerSec = 0, timerInt = null;
@@ -330,6 +362,11 @@ function goTo(i) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
+function wordZh(w) {
+  const key = w.toLowerCase().replace(/[^a-z0-9]/g,'');
+  return WORD_DICT[key] || null;
+}
+
 function render() {
   const seg = SEGS[cur];
   const res = segResults[cur];
@@ -357,12 +394,16 @@ function render() {
       ${errors.length>0?`
       <div class="sec-title">需要加強的單字 <span class="err-badge">${errors.length}</span></div>
       <div class="err-list">
-        ${errors.map(e=>`
+        ${errors.map(e=>{
+          const zh = wordZh(e.word);
+          return `
           <div class="err-item">
             <div class="esaid">${esc(e.word)}</div>
+            ${zh ? `<div class="eword-zh">${esc(zh)}</div>` : ''}
             ${e.heard?`<div class="eheard">電腦聽到：${esc(e.heard)}</div>`:`<div class="eheard">（未偵測到）</div>`}
             <button class="tts-btn" onclick="speakWord('${esc(e.word)}')">▶ 聽正確發音</button>
-          </div>`).join('')}
+          </div>`;
+        }).join('')}
       </div>
       `:`<div style="color:var(--green);font-size:15px;font-weight:500;padding:4px 0">✓ 完美！沒有錯誤</div>`}
     </div>`;
@@ -373,11 +414,19 @@ function render() {
       <div class="card-hdr">
         <span class="seg-tag">${esc(seg.g)} · ${cur+1}/${TOTAL}</span>
         <span class="seg-ttl">句子練習</span>
+        <div class="zh-sentence">${esc(seg.zh)}</div>
       </div>
       <div class="script">${renderScript(seg, res?res.comparison:null)}</div>
       <div class="live-box" id="liveBox">
         <div class="live-label" id="liveLabel">即時辨識</div>
         <div id="liveText" style="font-size:14px;min-height:20px;color:var(--muted)">按下錄音開始</div>
+      </div>
+      <div style="padding:0 16px 10px;text-align:right">
+        <button onclick="toggleDebug()" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">🔍 除錯面板</button>
+      </div>
+      <div id="debugPanel" style="display:none;margin:0 16px 14px;background:#111;border-radius:8px;padding:10px 12px">
+        <div style="font-size:10px;color:#aaa;margin-bottom:4px;letter-spacing:.5px">DEBUG LOG</div>
+        <pre id="debugLog" style="font-family:monospace;font-size:11px;color:#7fff7f;line-height:1.6;white-space:pre-wrap;max-height:160px;overflow-y:auto"></pre>
       </div>
       <div class="desk-ctrl">
         <button class="btn-rd" id="recBtnDesk" onclick="toggleRecord()">
@@ -399,11 +448,21 @@ function render() {
   });
 }
 
-// ── RECORDING — Android-safe loop ──────────────────────────────────────────
+// ── DEBUG LOG ────────────────────────────────────────────────────────────────
+let debugLines = [];
+function dbg(msg) {
+  const t = new Date().toLocaleTimeString('zh-TW',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  debugLines.unshift(`[${t}] ${msg}`);
+  if (debugLines.length > 30) debugLines.pop();
+  const el = document.getElementById('debugLog');
+  if (el) el.textContent = debugLines.join('\n');
+}
+
+// ── RECORDING — Android-safe ─────────────────────────────────────────────────
 function toggleRecord() { isRec ? stopRecord() : startRecord(); }
 
 function startRecord() {
-  if (!SR) { alert('請使用 Chrome 或 Edge 瀏覽器。'); return; }
+  if (!SR) { alert('瀏覽器不支援語音辨識，請改用 Chrome 或 Edge。'); return; }
   finalTx = ''; interimTx = '';
   isRec = true; shouldKeepRecording = true;
   audioBlob = null; audioUrl = null;
@@ -412,75 +471,143 @@ function startRecord() {
   timerSec = 0; updateTimer();
   timerInt = setInterval(()=>{timerSec++;updateTimer();},1000);
   syncRecUI(true);
-  startSRLoop();
-  startAudioRec();
+  dbg('▶ startRecord()');
+
+  // Request mic first, then start SR with same stream
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    dbg('✓ 麥克風授權成功');
+    startAudioRec(stream);
+    // Small delay so mic warms up before SR grabs it
+    setTimeout(()=>startSRLoop(), 300);
+  }).catch(err=>{
+    dbg('✗ 麥克風錯誤: ' + err.message);
+    isRec = false; shouldKeepRecording = false;
+    syncRecUI(false);
+    clearInterval(timerInt);
+    alert('無法取得麥克風：' + err.message);
+  });
 }
 
+let srRestartCount = 0;
 function startSRLoop() {
-  if (!shouldKeepRecording) return;
-  recognition = new SR();
+  if (!shouldKeepRecording) { dbg('— SR loop stopped (flag off)'); return; }
+  srRestartCount++;
+  dbg(`SR loop #${srRestartCount} start`);
+
+  try {
+    recognition = new SR();
+  } catch(e) {
+    dbg('✗ new SR() 失敗: ' + e.message); return;
+  }
+
   recognition.lang = 'en-US';
-  recognition.continuous = false;   // ← false = Android compatible
+  recognition.continuous = false;     // false = Android compatible
   recognition.interimResults = true;
   recognition.maxAlternatives = 1;
 
   recognition.onstart = () => {
+    dbg('SR onstart fired');
     updateLiveBox(finalTx, '');
   };
+
+  recognition.onsoundstart = () => dbg('SR onsoundstart — 偵測到聲音');
+  recognition.onspeechstart = () => dbg('SR onspeechstart — 偵測到語音');
 
   recognition.onresult = e => {
     let interim = '';
     for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) finalTx += e.results[i][0].transcript + ' ';
-      else interim += e.results[i][0].transcript;
+      if (e.results[i].isFinal) {
+        const txt = e.results[i][0].transcript;
+        finalTx += txt + ' ';
+        dbg('SR final: "' + txt + '"');
+      } else {
+        interim += e.results[i][0].transcript;
+      }
     }
+    interimTx = interim;
     updateLiveBox(finalTx, interim);
   };
 
   recognition.onerror = e => {
-    if (e.error === 'no-speech' || e.error === 'aborted') return;
-    console.warn('SR error:', e.error);
-  };
-
-  recognition.onend = () => {
-    // Android fires onend after each pause — restart automatically until user stops
-    if (shouldKeepRecording) {
-      setTimeout(startSRLoop, 100);
+    dbg('SR error: ' + e.error);
+    // no-speech & aborted are normal on Android — restart
+    if (e.error === 'no-speech' || e.error === 'aborted' || e.error === 'audio-capture') {
+      // onend will handle restart
+      return;
+    }
+    if (e.error === 'not-allowed') {
+      alert('麥克風權限被拒絕，請在瀏覽器設定中允許麥克風存取。');
+      shouldKeepRecording = false;
+    }
+    if (e.error === 'network') {
+      dbg('網路錯誤 — 將重試');
     }
   };
 
-  try { recognition.start(); } catch(e) { console.warn('SR start:', e); }
+  recognition.onend = () => {
+    dbg('SR onend (shouldKeep=' + shouldKeepRecording + ', finalTx="' + finalTx.trim().slice(0,30) + '")');
+    if (shouldKeepRecording) {
+      setTimeout(startSRLoop, 150);
+    } else {
+      // User pressed stop — finalize
+      const heard = (finalTx + ' ' + interimTx).trim();
+      dbg('Final heard: "' + heard.slice(0,60) + '"');
+      if (heard) processResult(heard);
+      else updateLiveBox('', '');
+    }
+  };
+
+  try {
+    recognition.start();
+    dbg('SR .start() called');
+  } catch(e) {
+    dbg('✗ SR .start() 拋錯: ' + e.message);
+    // Likely "already started" — wait and retry
+    setTimeout(startSRLoop, 500);
+  }
 }
 
 function stopRecord() {
-  isRec = false; shouldKeepRecording = false;
+  dbg('■ stopRecord()');
+  shouldKeepRecording = false;  // signal onend to finalize
+  isRec = false;
   clearInterval(timerInt);
-  if (recognition) { try { recognition.stop(); } catch(e){} recognition = null; }
+  syncRecUI(false);
+  if (recognition) {
+    try { recognition.stop(); } catch(e){ dbg('stop() err: '+e.message); }
+    // onend will call processResult
+  } else {
+    const heard = (finalTx + ' ' + interimTx).trim();
+    if (heard) processResult(heard);
+    else updateLiveBox('','');
+  }
   if (mediaRecorder && mediaRecorder.state !== 'inactive') {
     mediaRecorder.stop();
-    mediaRecorder._stream.getTracks().forEach(t=>t.stop());
+    if (mediaRecorder._stream) mediaRecorder._stream.getTracks().forEach(t=>t.stop());
   }
-  syncRecUI(false);
-  // Use whatever was collected
-  const heard = (finalTx + ' ' + interimTx).trim();
-  if (heard) processResult(heard);
-  else { updateLiveBox('',''); }
 }
 
 let mediaRecorder = null;
-function startAudioRec() {
-  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+function startAudioRec(stream) {
+  try {
     const mr = new MediaRecorder(stream);
     const chunks = [];
-    mr.ondataavailable = e => chunks.push(e.data);
+    mr.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
     mr.onstop = () => {
-      audioBlob = new Blob(chunks,{type:'audio/webm'});
+      if (chunks.length === 0) { dbg('AudioRec: no chunks'); return; }
+      audioBlob = new Blob(chunks, {type:'audio/webm'});
       audioUrl = URL.createObjectURL(audioBlob);
+      dbg('AudioRec: saved ' + chunks.length + ' chunks');
       const pm = document.getElementById('playBtnMob'); if (pm) pm.disabled = false;
       const pd = document.getElementById('playBtnDesk'); if (pd) pd.disabled = false;
     };
-    mr.start(); mediaRecorder = mr; mediaRecorder._stream = stream;
-  }).catch(()=>{});
+    mr.start(500); // collect every 500ms
+    mediaRecorder = mr;
+    mediaRecorder._stream = stream;
+    dbg('AudioRec started');
+  } catch(e) {
+    dbg('AudioRec error: ' + e.message);
+  }
 }
 
 function processResult(heard) {
@@ -548,6 +675,11 @@ function updateStats() {
   document.getElementById('totalErrors').textContent = errs;
   document.getElementById('progressCircle').style.strokeDashoffset = 113.1*(1-done/TOTAL);
   document.getElementById('progressText').textContent = `${done} / ${TOTAL}`;
+}
+
+function toggleDebug() {
+  const p = document.getElementById('debugPanel');
+  if (p) p.style.display = p.style.display === 'none' ? 'block' : 'none';
 }
 
 function playMyAudio() { if (audioUrl) new Audio(audioUrl).play(); }
