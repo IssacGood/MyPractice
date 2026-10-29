@@ -69,6 +69,17 @@ dl{margin:0}dt{font-weight:700;margin-top:10px}dd{margin:2px 0 0;color:var(--mut
 <thead><tr><th></th><th class="h1">① 現況<small>私下、未申報</small></th><th class="h2">② 改公司帳<small>月租不變</small></th><th class="h3">③ 改公司帳<small>你設定的月租</small></th><th class="h4">④ 我方建議<small id="sugh">月租 26,000</small></th></tr></thead>
 <tbody id="tb"></tbody></table></div>
 
+<div class="card warn"><h2>未來賣房:自用 400 萬免稅額可能沒了(不在年實收裡)</h2>
+<p>這不是每年扣的稅,是一次性的未來賣房稅,所以主表的月實收沒有扣它,不要直接把 400 萬從年實收扣掉。</p>
+<p><b>為什麼會沒了:</b>房地合一稅自用優惠要同時符合:本人、配偶或未成年子女設籍、持有並居住連續 6 年、出售前 6 年內沒有出租、營業或執行業務使用、且 6 年內沒用過這優惠。租給公司就已經是出租,條件就破了;若公司再把這裡登記為營業地址,還會被認定為營業用,房屋稅可能跳到 3% 以上,土地增值稅自用一生一次 10% 優惠也可能拿不到,改按 20% 至 40% 累進。</p>
+<p><b>損失不是直接少 400 萬:</b>400 萬是免稅額,不是現金。實際多繳的稅 = 沒有優惠的稅 − 有優惠的稅,看出售利得和持有年數而定。</p>
+<p><b>例子(持有超過 10 年、稅率 15% 為例;實際稅率看持有年數,2 年內 45%、2 至 5 年 35%、5 至 10 年 20%、10 年以上 15%):</b><br>
+出售利得 200 萬:有優惠 0 元,沒優惠 30 萬,多繳 30 萬<br>
+出售利得 400 萬:有優惠 0 元,沒優惠 60 萬,多繳 60 萬<br>
+出售利得 600 萬:有優惠 (600−400)×10% = 20 萬,沒優惠 90 萬,多繳 70 萬</p>
+<p><b>關鍵時間:</b>只有在出租或營業結束後 6 年內賣房才受影響;若停租後重新自住連續 6 年(設籍、居住都要符合),之後賣房可重新符合,請再確認。</p>
+<p class="note">適用前提:這條只適用於 2016 年 1 月 1 日以後取得、適用房地合一稅的房子;若是 2016 年前取得,適用舊制,400 萬這條不適用,請先確認取得日期。正式金額請問會計師,不要只用上面例子決定賣不賣。</p></div>
+
 <div class="card tw"><h2>公司端:向我租,公司可省多少稅</h2>
 <table class="t2"><colgroup><col style="width:50.5%"><col style="width:16.5%"><col style="width:16.5%"><col style="width:16.5%"></colgroup><thead><tr><th></th><th class="h2">② 月租不變</th><th class="h3">③ 你設定的月租</th><th class="h4">④ 我方建議</th></tr></thead><tbody id="tb2"></tbody></table>
 <p class="note">公司把租金列為費用,可扣掉約 20% 營所稅(前提:公司當年有獲利、無虧損可抵,虧損則省不到)。租金需與業務相關(辦公室或員工宿舍)、契約承租人要是公司;公司要代扣 10% 預扣稅並開扣繳憑單。看公司划不划算,關鍵是跟「現在不列帳」比,不是只跟「月租不變已列帳」比:即使月租漲到建議價,公司淨成本仍可能比現在不列帳低,下面「比現況不列帳省多少」就是這一欄。公司若替你負擔補充保費,稅局可能視為額外所得,請會計師確認。公司表只列公司自己的支出和省稅,你付的稅費在主表裡,不會算進公司成本;公司要補貼你的方式是加租,不是直接幫你繳稅。</p></div>
@@ -142,7 +153,7 @@ function render(){
  ["月實收<small>我的利益區塊</small>",x=>f(x.net/12),"fin myprofit"],
  ["與現況差距(月)",(x)=>{if(x===A)return"-";const d=(x.net-A.net)/12;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
  ["與現況差額(年)",(x)=>{if(x===A)return"-";const d=x.net-A.net;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
- ["每月匯款金額<small>公司實付:扣預扣 10% 與補充保費,未扣管理費/稅單</small>",x=>f(x.cash)],
+ ["每月匯款金額<small>扣預扣 10% 與補充保費,未扣管理費/稅單;①現況為私人收款,非公司匯款</small>",x=>f(x.cash)],
  ["預扣 10%(年)<small>預繳,不是成本</small>",x=>x.withholdA?f(x.withholdA):"0"],
  ["隔年退稅(+) / 補稅(-)<small>年預扣 − 所得稅</small>",(x)=>{if(x===A)return"-";const d=x.refund;return '<span class="'+(d>=0?"pos":"neg")+'">'+(d>=0?"+":"")+f(d)+"</span>"}]
  ];
@@ -155,7 +166,7 @@ function render(){
  $("tb2").innerHTML=r2.map(([n,fn,c])=>"<tr"+(c?' class="'+c+'"':"")+"><td>"+n+"</td>"+E.map(e=>"<td>"+fn(e)+"</td>").join("")+"</tr>").join("");
  const ED=E[2],saveOrig=q.cur*12-ED.net,dd=(D.net-A.net)/12;
  $("concl").textContent="結論(預設 20%,夫妻合計 200 萬):打平月租約 "+f(Math.ceil(be/100)*100)+" 元;建議 "+f(D.r)+" 元,每月比現況多 "+f(dd)+" 元、每年多 "+f(D.net-A.net)+" 元;公司列帳後淨成本 "+f(ED.net)+" 元/年,比現在不列帳 "+(saveOrig>=0?"還省 ":"反而多 ")+f(Math.abs(saveOrig))+" 元。";
- $("conclNote").textContent="談判說法:公司不是只多付租金,它列帳後每年可省營所稅 "+f(ED.save)+" 元,即使月租漲到 "+f(D.r)+" 元,淨成本仍比現在不列帳低。稅率若改選 12%(例如只算單人年薪 130 萬),打平月租會降到約 24,400 元,建議價每月可多約 1,527 元。";
+ $("conclNote").textContent="談判說法:公司不是只多付租金,它列帳後每年可省營所稅 "+f(ED.save)+" 元,即使月租漲到 "+f(D.r)+" 元,淨成本仍比現在不列帳低。稅率或補充保費負擔方式改變時,打平月租和建議價的優勢都會跟著變,直接用上面選項試算最準。";
 }
 ids.forEach(i=>$(i).addEventListener("input",render));
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{$("bear").value=b.dataset.v;render()});
