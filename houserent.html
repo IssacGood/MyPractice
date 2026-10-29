@@ -21,8 +21,11 @@ button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 1
 label{display:block;font-size:12px;color:var(--mut)}
 input[type=number],select{width:100%;padding:6px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font-size:14px}
 .seg{display:flex;gap:6px}.seg button{background:var(--bg);color:var(--tx);border:1px solid var(--bd);padding:9px 14px;font-size:14px}.seg button.on{background:#059669;color:#fff;border-color:#059669;font-weight:700}
+.t2 td:nth-child(2){background:rgba(194,65,12,.06)}
+.t2 td:nth-child(3){background:rgba(4,120,87,.07)}
+.t2 td:nth-child(4){background:rgba(37,99,235,.08)}
 .tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:640px;font-size:14px}
+table{width:100%;border-collapse:collapse;min-width:640px;font-size:14px;table-layout:fixed}
 th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--bd)}
 th:first-child,td:first-child{text-align:left}
 thead th{font-size:13px;border-bottom:3px solid}
@@ -31,8 +34,19 @@ thead th{font-size:13px;border-bottom:3px solid}
 td:nth-child(3){background:rgba(194,65,12,.06)}td:nth-child(4){background:rgba(4,120,87,.07)}
 tr.sum td{font-weight:700;border-top:2px solid var(--bd)}
 tr.fin td{font-weight:700;font-size:16px}
+tr.myprofit td{border-top:3px solid var(--c3);border-bottom:3px solid var(--c3)}
+tr.myprofit td:first-child{border-left:3px solid var(--c3)}
+tr.myprofit td:last-child{border-right:3px solid var(--c3)}
+tr.copprofit td{border-top:3px solid var(--acc);border-bottom:3px solid var(--acc);font-weight:700;font-size:16px}
+tr.copprofit td:first-child{border-left:3px solid var(--acc)}
+tr.copprofit td:last-child{border-right:3px solid var(--acc)}
+
 .neg{color:var(--bad)}.pos{color:var(--good)}
 small{color:var(--mut);display:block;font-weight:400;font-size:11px}
+th:first-child,td:first-child{position:sticky;left:0;background:var(--card);z-index:1;min-width:110px}
+.concl{border-left:4px solid var(--c3)}
+.warn{border-left:4px solid var(--bad)}
+.seg button{flex:1}
 dl{margin:0}dt{font-weight:700;margin-top:10px}dd{margin:2px 0 0;color:var(--mut);font-size:13px}
 .note{font-size:12px;color:var(--mut)}
 </style></head><body><main>
@@ -46,56 +60,64 @@ dl{margin:0}dt{font-weight:700;margin-top:10px}dd{margin:2px 0 0;color:var(--mut
 <div class="note" id="beNote"></div>
 </div>
 
-<div class="card"><div class="row"><div><b>二代健保補充保費 2.11% 誰付?</b><small>法律上由公司從租金扣繳,實務上預設是房東負擔;要公司出,需寫進合約談好</small></div>
-<div class="seg"><input type="hidden" id="bear" value="0"><button type="button" data-v="0">我付(從租金扣)</button><button type="button" data-v="1">公司負擔</button></div></div></div>
+<div class="card concl"><div id="concl" style="font-weight:700"></div><p class="note" id="conclNote"></p></div>
 
-<div class="card tw"><table>
+<div class="card"><div class="row"><div><b>二代健保補充保費 2.11% 誰付?</b><small>目前預設:公司負擔;要改回房東負擔,再點「我付」</small></div>
+<div class="seg"><input type="hidden" id="bear" value="1"><button type="button" data-v="0">我付(從租金扣)</button><button type="button" data-v="1">公司負擔</button></div></div></div>
+
+<div class="card tw"><table><colgroup><col style="width:34%"><col style="width:16.5%"><col style="width:16.5%"><col style="width:16.5%"><col style="width:16.5%"></colgroup>
 <thead><tr><th></th><th class="h1">① 現況<small>私下、未申報</small></th><th class="h2">② 改公司帳<small>月租不變</small></th><th class="h3">③ 改公司帳<small>你設定的月租</small></th><th class="h4">④ 我方建議<small id="sugh">月租 26,000</small></th></tr></thead>
 <tbody id="tb"></tbody></table></div>
 
+<div class="card tw"><h2>公司端:向我租,公司可省多少稅</h2>
+<table class="t2"><colgroup><col style="width:50.5%"><col style="width:16.5%"><col style="width:16.5%"><col style="width:16.5%"></colgroup><thead><tr><th></th><th class="h2">② 月租不變</th><th class="h3">③ 你設定的月租</th><th class="h4">④ 我方建議</th></tr></thead><tbody id="tb2"></tbody></table>
+<p class="note">公司把租金列為費用,可扣掉約 20% 營所稅(前提:公司當年有獲利、無虧損可抵,虧損則省不到)。租金需與業務相關(辦公室或員工宿舍)、契約承租人要是公司;公司要代扣 10% 預扣稅並開扣繳憑單。看公司划不划算,關鍵是跟「現在不列帳」比,不是只跟「月租不變已列帳」比:即使月租漲到建議價,公司淨成本仍可能比現在不列帳低,下面「比現況不列帳省多少」就是這一欄。公司若替你負擔補充保費,稅局可能視為額外所得,請會計師確認。公司表只列公司自己的支出和省稅,你付的稅費在主表裡,不會算進公司成本;公司要補貼你的方式是加租,不是直接幫你繳稅。</p></div>
+
 <div class="card"><h2>參數(可修改)</h2>
 <div class="grid">
+<div><label>公司營所稅率(%)</label><input type="number" id="ct" value="20"></div>
 <div><label>我方建議月租</label><input type="number" id="sug" value="26000"></div>
 <div><label>現在月租</label><input type="number" id="cur" value="22000"></div>
 <div><label>管理費/月(房東負擔)</label><input type="number" id="mg" value="2000"></div>
-<div><label>地價稅/年(去年 1,500)</label><input type="number" id="land" value="1500"></div>
+<div><label>現況地價稅/年(去年 1,500)</label><input type="number" id="land" value="1500"></div>
+<div><label>改出租後地價稅/年</label><input type="number" id="land1" value="1500"></div>
 <div><label>現況房屋稅/年(去年 7,000)</label><input type="number" id="h0" value="7000"></div>
 <div><label>改出租後房屋稅/年</label><input type="number" id="h1" value="8750"></div>
-<div><label>夫妻所得稅率</label><select id="tr"><option value="0.05">5%</option><option value="0.12">12%</option><option value="0.20" selected>20%</option><option value="0.30">30%</option></select></div>
+<div><label>租金邊際稅率(預設 20%)</label><select id="tr"><option value="0.05">5%</option><option value="0.12">12%</option><option value="0.20" selected>20%</option><option value="0.30">30%</option></select></div>
 <div><label>必要費用扣除率</label><input type="number" id="dr" value="43"></div>
 </div></div>
 
 <div class="card"><h2>各個 % 是什麼意思</h2><dl>
 <dt>43% 必要費用扣除</dt><dd>租金收入申報時,國稅局預設可先扣 43% 當成本(房屋稅、修繕、折舊等),只對剩下 57% 課稅。若實際費用更高,可改用實際費用申報。</dd>
-<dt>20% 所得稅率</dt><dd>夫妻合併申報,綜合所得淨額約 172 萬,落在 20% 級距。新增的租金所得會疊在最上面,所以以 20% 計。公式:年租金 × 57% × 20%,等於約 11.4% 的租金被拿去繳稅。</dd>
+<dt>20% 邊際稅率(預設,夫妻合計 200 萬驗算)</dt><dd>夫妻合計 200 萬:200 萬 − 免稅額 19.4 萬(兩人) − 標準扣除額 26.2 萬(夫妻) − 薪資特別扣除額 21.8 萬(單薪) = 淨額約 132.6 萬,再加租金淨額(年租金 × 57%,約 15–17.8 萬)後約 147.6–150.4 萬,仍在 20% 級距(133 萬–266 萬),所以邊際稅率維持 20% 不變。公式:年租金 × 57% × 20%,等於約 11.4% 的租金被拿去繳稅。提醒:若兩人都有薪水、都扣薪資特別扣除額,淨額會降到約 110.8 萬,稅率會變 12%,到時表上切到 12% 即可。</dd>
 <dt>2.11% 二代健保補充保費</dt><dd>公司單次付租金達 2 萬以上,會從租金扣 2.11% 給健保署。月租剛好低於 2 萬可免扣,但本例已超過。可談由公司負擔。</dd>
-<dt>10% 預扣所得稅</dt><dd>租金單次超過 2 萬,公司依法預扣 10% 繳給國稅局。這只是預繳,隔年報稅時抵你的稅額,所以不列入支出,只影響每月入帳的現金流。</dd>
-<dt>房屋稅 1.2% / 1.5%</dt><dd>自住稅率較低,出租改為非自住稅率,約 1.5%(視地方政府)。若被課營業用則 3% 以上,合約請註明是員工住宿。</dd>
-<dt>地價稅 2‰ / 10‰</dt><dd>自用住宅 2‰,一般用地 10‰。你去年繳 1,500,視為已是一般稅率,故不變;若原本是自用稅率,改後會變 5 倍。</dd>
-<dt>為什麼加租會超過稅負</dt><dd>多收的租金也要被課稅(約 13.5%),所以要補 1 元的損失,得加租約 1.16 元。</dd>
+<dt>10% 預扣所得稅(不是成本)</dt><dd>租金單次給付超過 2 萬(扣繳稅額超過 2,000 元),公司依法預扣 10% 繳給國稅局。這只是預繳,隔年報稅時抵你的稅額,所以不列入年實收的支出,只影響每月現金流。20% 預設情境下,年預扣會小於應納所得稅,隔年還要補稅(見主表「隔年退稅」列,負數即補稅);若改選 12%,年預扣反而會超過所得稅,隔年會退稅。</dd>
+<dt>房屋稅 1.2% / 1.5%(只是低標估計)</dt><dd>自住 1.2%,出租改非自住後,申報租金達當地標準者約 1.5%–2.4%,其他住宅 2%–4.8%,且依全國持有戶數分級。表上 7,000 → 8,750 只是用 1.5% 換算的低標,若你名下非自住戶數多或當地稅率較高,實際會更高,請以稅單或稅捐處為準。若被課營業用則 3% 以上,合約請註明是員工住宿。</dd>
+<dt>地價稅 2‰ / 10‰(最大隱藏風險)</dt><dd>自用住宅 2‰,一般用地 10‰。預設把去年 1,500 當成已是一般稅率,所以改後不變;但若去年 1,500 其實是自用稅率,列帳後會變約 7,500,一年多 6,000,打平月租要再加約 550 元。請先看地價稅單上的稅率欄確認,參數區已拆成「現況/改後」兩欄可直接試 7,500。</dd>
+<dt>為什麼加租會超過稅負</dt><dd>多收的租金也要被課稅。預設 20% + 公司負擔補充保費:約 11.4% 被吃掉,補 1 元損失約需加租 1.13 元;若改回房東負擔:約 13.5% 被吃掉,約需加租 1.16 元;若改選 12% + 公司負擔:約 6.84% 被吃掉,約需加租 1.07 元。</dd>
 </dl></div>
-<p class="note">此為粗估,不含過去漏報租金的補稅。正式金額請向國稅局、稅捐處或會計師確認。</p>
+<p class="note">此為粗估,不含過去漏報租金的補稅;列帳後不代表過去自動免補稅,過去部分請另問會計師。正式金額請向國稅局、稅捐處或會計師確認。房價 700 萬、40 坪不能直接推稅:房屋稅、地價稅的稅基是房屋評定現值與公告地價,不是市價,老屋折舊後評定現值很低(7,000 ÷ 1.2% ≈ 58.3 萬),所以用去年實繳稅單比用市價推算準。</p>
 </main>
 <script>
 const $=id=>document.getElementById(id);
 const f=n=>Math.round(n).toLocaleString("en-US");
-const ids=["sug","rent","cur","mg","land","h0","h1","tr","dr","bear"];
-function P(){return{cur:+$("cur").value,mg:+$("mg").value,land:+$("land").value,h0:+$("h0").value,h1:+$("h1").value,t:+$("tr").value,d:+$("dr").value/100,bear:$("bear").value==="1",p:0.0211}}
+const ids=["ct","sug","rent","cur","mg","land","land1","h0","h1","tr","dr","bear"];
+function P(){return{cur:+$("cur").value,mg:+$("mg").value,land:+$("land").value,land1:+$("land1").value,h0:+$("h0").value,h1:+$("h1").value,t:+$("tr").value,d:+$("dr").value/100,bear:$("bear").value==="1",p:0.0211}}
 function calc(r,isNew,q){
- const inc=r*12,mg=q.mg*12,land=q.land,house=isNew?q.h1:q.h0;
+ const inc=r*12,mg=q.mg*12,land=isNew?q.land1:q.land,house=isNew?q.h1:q.h0;
  const tax=isNew?inc*(1-q.d)*q.t:0;
  const prem=(isNew&&!q.bear&&r>=20000)?inc*q.p:0;
  const exp=mg+land+house+tax+prem;
  const withhold=isNew&&r>20000?r*0.10:0, premM=isNew&&r>=20000?r*q.p:0;
  return{r,inc,mg,land,house,pct:1.2*house/q.h0,tax,prem,exp,net:inc-exp,
-  cash:r-withhold-(q.bear?0:premM)};
+  cash:r-withhold-(q.bear?0:premM),withhold,withholdA:withhold*12,refund:isNew?withhold*12-tax:0};
 }
 function breakeven(q){
  const base=calc(q.cur,false,q).net;
  for(const withP of [true,false]){
   const pp=withP&&!q.bear?q.p:0;
   const fac=1-(1-q.d)*q.t-pp;
-  const r=(base+q.mg*12+q.land+q.h1)/(12*fac);
+  const r=(base+q.mg*12+q.land1+q.h1)/(12*fac);
   if((withP&&r>=20000)||(!withP&&r<20000)||q.bear)return r;
  }
 }
@@ -111,21 +133,33 @@ function render(){
  ["月租金",x=>f(x.r)],
  ["年租金",x=>f(x.inc)],
  ["管理費(×12)",x=>"-"+f(x.mg)],
- ["地價稅<small>10‰(= 1%)一般稅率</small>",x=>"-"+f(x.land)+"<small>10‰</small>"],
+ ["地價稅",x=>"-"+f(x.land)],
  ["房屋稅<small>現況自住 1.2%,出租約 1.5%</small>",x=>"-"+f(x.house)+"<small>"+x.pct.toFixed(2)+"%</small>"],
  ["租金所得稅<small>年租金×57%×稅率</small>",x=>x.tax?"-"+f(x.tax):"0"],
  ["補充保費 2.11%<small>"+($("bear").value==="1"?"公司負擔,不扣你":"你付")+"</small>",x=>x.prem?"-"+f(x.prem):"0"],
  ["年總支出",x=>f(x.exp),"sum"],
  ["年實收",x=>f(x.net),"sum"],
- ["月實收",x=>f(x.net/12),"fin"],
- ["與現況差距(月)",(x)=>{const d=(x.net-A.net)/12;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
- ["與現況差額(年)",(x)=>{const d=x.net-A.net;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
- ["每月實際入帳<small>扣預扣 10% 與補充保費</small>",x=>f(x.cash)]
+ ["月實收<small>我的利益區塊</small>",x=>f(x.net/12),"fin myprofit"],
+ ["與現況差距(月)",(x)=>{if(x===A)return"-";const d=(x.net-A.net)/12;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
+ ["與現況差額(年)",(x)=>{if(x===A)return"-";const d=x.net-A.net;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
+ ["每月匯款金額<small>公司實付:扣預扣 10% 與補充保費,未扣管理費/稅單</small>",x=>f(x.cash)],
+ ["預扣 10%(年)<small>預繳,不是成本</small>",x=>x.withholdA?f(x.withholdA):"0"],
+ ["隔年退稅(+) / 補稅(-)<small>年預扣 − 所得稅</small>",(x)=>{if(x===A)return"-";const d=x.refund;return '<span class="'+(d>=0?"pos":"neg")+'">'+(d>=0?"+":"")+f(d)+"</span>"}]
  ];
  $("tb").innerHTML=rows.map(([n,fn,c])=>"<tr"+(c?' class="'+c+'"':"")+"><td>"+n+"</td>"+[A,B,C,D].map(x=>"<td>"+fn(x)+"</td>").join("")+"</tr>").join("");
+ const ct=+$("ct").value/100;
+ const co=x=>{const cb=(q.bear&&x.r>=20000)?x.inc*q.p:0,cost=x.inc+cb,save=cost*ct;return{inc:x.inc,cb,cost,save,net:cost-save}};
+ const E=[B,C,D].map(co),E0=E[0];
+ const orig=q.cur*12;
+ const r2=[["年租金(公司支出)",e=>f(e.inc)],["公司負擔的補充保費",e=>e.cb?f(e.cb):"0"],["公司帳上費用合計",e=>f(e.cost),"sum"],["可省營所稅 "+Math.round(ct*100)+"%",e=>'<span class="pos">'+f(e.save)+"</span>","fin"],["公司實際淨成本(年)",e=>f(e.net)],["比②月租不變(已列帳)多花(年)",e=>{const d=e.net-E0.net;return Math.abs(d)<1?"-":"+"+f(d)}],["比現況不列帳省多少(年)<small>正數=省,這才是談判重點</small>",e=>{const d=orig-e.net;return '<span class="'+(d>=0?"pos":"neg")+'">'+(d>=0?"+":"")+f(d)+"</span>"}],["可省營所稅(每月)",e=>f(e.save/12)],["公司實際淨成本(每月)<small>公司利益區塊</small>",e=>f(e.net/12),"copprofit"]];
+ $("tb2").innerHTML=r2.map(([n,fn,c])=>"<tr"+(c?' class="'+c+'"':"")+"><td>"+n+"</td>"+E.map(e=>"<td>"+fn(e)+"</td>").join("")+"</tr>").join("");
+ const ED=E[2],saveOrig=q.cur*12-ED.net,dd=(D.net-A.net)/12;
+ $("concl").textContent="結論(預設 20%,夫妻合計 200 萬):打平月租約 "+f(Math.ceil(be/100)*100)+" 元;建議 "+f(D.r)+" 元,每月比現況多 "+f(dd)+" 元、每年多 "+f(D.net-A.net)+" 元;公司列帳後淨成本 "+f(ED.net)+" 元/年,比現在不列帳 "+(saveOrig>=0?"還省 ":"反而多 ")+f(Math.abs(saveOrig))+" 元。";
+ $("conclNote").textContent="談判說法:公司不是只多付租金,它列帳後每年可省營所稅 "+f(ED.save)+" 元,即使月租漲到 "+f(D.r)+" 元,淨成本仍比現在不列帳低。稅率若改選 12%(例如只算單人年薪 130 萬),打平月租會降到約 24,400 元,建議價每月可多約 1,527 元。";
 }
 ids.forEach(i=>$(i).addEventListener("input",render));
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{$("bear").value=b.dataset.v;render()});
 $("be").onclick=()=>{$("rent").value=Math.ceil(breakeven(P())/100)*100;render()};
+$("bear").value="1"; // 預設:公司負擔
 render();
 </script></body></html>
