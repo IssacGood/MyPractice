@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>房租改公司帳試算</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f7f9;--card:#fff;--tx:#1d2330;--mut:#667085;--bd:#e3e6ec;--c1:#475467;--c2:#c2410c;--c3:#047857;--bad:#b42318;--good:#047857;--acc:#2563eb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#12151c;--card:#1b2029;--tx:#e8ebf2;--mut:#9aa3b5;--bd:#2d3442;--c1:#a8b0c0;--c2:#fb923c;--c3:#34d399;--bad:#f97066;--good:#34d399;--acc:#60a5fa}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 system-ui,-apple-system,"Noto Sans TC","PingFang TC",sans-serif}
+main{max-width:820px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:4px 0 2px}h2{font-size:16px;margin:0 0 10px}
+.sub{color:var(--mut);font-size:13px;margin:0 0 14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}
+.big{font-size:28px;font-weight:700;color:var(--c3)}
+input[type=range]{width:100%;accent-color:var(--c3);margin:8px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+button{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+label{display:block;font-size:12px;color:var(--mut)}
+input[type=number],select{width:100%;padding:6px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font-size:14px}
+.seg{display:flex;gap:6px}.seg button{background:var(--bg);color:var(--tx);border:1px solid var(--bd);padding:9px 14px;font-size:14px}.seg button.on{background:#059669;color:#fff;border-color:#059669;font-weight:700}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px;font-size:14px}
+th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--bd)}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:13px;border-bottom:3px solid}
+.h1{color:var(--c1);border-color:var(--c1)}.h2{color:var(--c2);border-color:var(--c2)}.h3{color:var(--c3);border-color:var(--c3)}
+.h4{color:var(--acc);border-color:var(--acc)}td:nth-child(5){background:rgba(37,99,235,.08)}
+td:nth-child(3){background:rgba(194,65,12,.06)}td:nth-child(4){background:rgba(4,120,87,.07)}
+tr.sum td{font-weight:700;border-top:2px solid var(--bd)}
+tr.fin td{font-weight:700;font-size:16px}
+.neg{color:var(--bad)}.pos{color:var(--good)}
+small{color:var(--mut);display:block;font-weight:400;font-size:11px}
+dl{margin:0}dt{font-weight:700;margin-top:10px}dd{margin:2px 0 0;color:var(--mut);font-size:13px}
+.note{font-size:12px;color:var(--mut)}
+</style></head><body><main>
+<h1>房租改公司帳試算</h1>
+<p class="sub">拖動下方月租,三個欄位即時更新。金額單位:元。</p>
+
+<div class="card">
+<div class="row"><div><label>改公司帳後的月租(拖動調整)</label><span class="big" id="rentv">25,600</span></div>
+<div><button id="be">套用打平月租</button></div></div>
+<input type="range" id="rent" min="15000" max="40000" step="100" value="25600">
+<div class="note" id="beNote"></div>
+</div>
+
+<div class="card"><div class="row"><div><b>二代健保補充保費 2.11% 誰付?</b><small>法律上由公司從租金扣繳,實務上預設是房東負擔;要公司出,需寫進合約談好</small></div>
+<div class="seg"><input type="hidden" id="bear" value="0"><button type="button" data-v="0">我付(從租金扣)</button><button type="button" data-v="1">公司負擔</button></div></div></div>
+
+<div class="card tw"><table>
+<thead><tr><th></th><th class="h1">① 現況<small>私下、未申報</small></th><th class="h2">② 改公司帳<small>月租不變</small></th><th class="h3">③ 改公司帳<small>你設定的月租</small></th><th class="h4">④ 我方建議<small id="sugh">月租 26,000</small></th></tr></thead>
+<tbody id="tb"></tbody></table></div>
+
+<div class="card"><h2>參數(可修改)</h2>
+<div class="grid">
+<div><label>我方建議月租</label><input type="number" id="sug" value="26000"></div>
+<div><label>現在月租</label><input type="number" id="cur" value="22000"></div>
+<div><label>管理費/月(房東負擔)</label><input type="number" id="mg" value="2000"></div>
+<div><label>地價稅/年(去年 1,500)</label><input type="number" id="land" value="1500"></div>
+<div><label>現況房屋稅/年(去年 7,000)</label><input type="number" id="h0" value="7000"></div>
+<div><label>改出租後房屋稅/年</label><input type="number" id="h1" value="8750"></div>
+<div><label>夫妻所得稅率</label><select id="tr"><option value="0.05">5%</option><option value="0.12">12%</option><option value="0.20" selected>20%</option><option value="0.30">30%</option></select></div>
+<div><label>必要費用扣除率</label><input type="number" id="dr" value="43"></div>
+</div></div>
+
+<div class="card"><h2>各個 % 是什麼意思</h2><dl>
+<dt>43% 必要費用扣除</dt><dd>租金收入申報時,國稅局預設可先扣 43% 當成本(房屋稅、修繕、折舊等),只對剩下 57% 課稅。若實際費用更高,可改用實際費用申報。</dd>
+<dt>20% 所得稅率</dt><dd>夫妻合併申報,綜合所得淨額約 172 萬,落在 20% 級距。新增的租金所得會疊在最上面,所以以 20% 計。公式:年租金 × 57% × 20%,等於約 11.4% 的租金被拿去繳稅。</dd>
+<dt>2.11% 二代健保補充保費</dt><dd>公司單次付租金達 2 萬以上,會從租金扣 2.11% 給健保署。月租剛好低於 2 萬可免扣,但本例已超過。可談由公司負擔。</dd>
+<dt>10% 預扣所得稅</dt><dd>租金單次超過 2 萬,公司依法預扣 10% 繳給國稅局。這只是預繳,隔年報稅時抵你的稅額,所以不列入支出,只影響每月入帳的現金流。</dd>
+<dt>房屋稅 1.2% / 1.5%</dt><dd>自住稅率較低,出租改為非自住稅率,約 1.5%(視地方政府)。若被課營業用則 3% 以上,合約請註明是員工住宿。</dd>
+<dt>地價稅 2‰ / 10‰</dt><dd>自用住宅 2‰,一般用地 10‰。你去年繳 1,500,視為已是一般稅率,故不變;若原本是自用稅率,改後會變 5 倍。</dd>
+<dt>為什麼加租會超過稅負</dt><dd>多收的租金也要被課稅(約 13.5%),所以要補 1 元的損失,得加租約 1.16 元。</dd>
+</dl></div>
+<p class="note">此為粗估,不含過去漏報租金的補稅。正式金額請向國稅局、稅捐處或會計師確認。</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const f=n=>Math.round(n).toLocaleString("en-US");
+const ids=["sug","rent","cur","mg","land","h0","h1","tr","dr","bear"];
+function P(){return{cur:+$("cur").value,mg:+$("mg").value,land:+$("land").value,h0:+$("h0").value,h1:+$("h1").value,t:+$("tr").value,d:+$("dr").value/100,bear:$("bear").value==="1",p:0.0211}}
+function calc(r,isNew,q){
+ const inc=r*12,mg=q.mg*12,land=q.land,house=isNew?q.h1:q.h0;
+ const tax=isNew?inc*(1-q.d)*q.t:0;
+ const prem=(isNew&&!q.bear&&r>=20000)?inc*q.p:0;
+ const exp=mg+land+house+tax+prem;
+ const withhold=isNew&&r>20000?r*0.10:0, premM=isNew&&r>=20000?r*q.p:0;
+ return{r,inc,mg,land,house,pct:1.2*house/q.h0,tax,prem,exp,net:inc-exp,
+  cash:r-withhold-(q.bear?0:premM)};
+}
+function breakeven(q){
+ const base=calc(q.cur,false,q).net;
+ for(const withP of [true,false]){
+  const pp=withP&&!q.bear?q.p:0;
+  const fac=1-(1-q.d)*q.t-pp;
+  const r=(base+q.mg*12+q.land+q.h1)/(12*fac);
+  if((withP&&r>=20000)||(!withP&&r<20000)||q.bear)return r;
+ }
+}
+function render(){
+ const q=P(),r=+$("rent").value;
+ $("rentv").textContent=f(r);
+ document.querySelectorAll(".seg button").forEach(b=>b.classList.toggle("on",b.dataset.v===$("bear").value));
+ const A=calc(q.cur,false,q),B=calc(q.cur,true,q),C=calc(r,true,q),D=calc(+$("sug").value,true,q);
+ $("sugh").textContent="月租 "+f(D.r);
+ const be=breakeven(q);
+ $("beNote").textContent="依目前參數,打平月租約 "+f(Math.ceil(be/100)*100)+" 元(比現在多 "+f(be-q.cur)+" 元,約 "+((be/q.cur-1)*100).toFixed(1)+"%)";
+ const rows=[
+ ["月租金",x=>f(x.r)],
+ ["年租金",x=>f(x.inc)],
+ ["管理費(×12)",x=>"-"+f(x.mg)],
+ ["地價稅<small>10‰(= 1%)一般稅率</small>",x=>"-"+f(x.land)+"<small>10‰</small>"],
+ ["房屋稅<small>現況自住 1.2%,出租約 1.5%</small>",x=>"-"+f(x.house)+"<small>"+x.pct.toFixed(2)+"%</small>"],
+ ["租金所得稅<small>年租金×57%×稅率</small>",x=>x.tax?"-"+f(x.tax):"0"],
+ ["補充保費 2.11%<small>"+($("bear").value==="1"?"公司負擔,不扣你":"你付")+"</small>",x=>x.prem?"-"+f(x.prem):"0"],
+ ["年總支出",x=>f(x.exp),"sum"],
+ ["年實收",x=>f(x.net),"sum"],
+ ["月實收",x=>f(x.net/12),"fin"],
+ ["與現況差距(月)",(x)=>{const d=(x.net-A.net)/12;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
+ ["與現況差額(年)",(x)=>{const d=x.net-A.net;return '<span class="'+(d<-1?"neg":"pos")+'">'+(Math.abs(d)<1?"約打平":(d>0?"+":"")+f(d))+"</span>"}],
+ ["每月實際入帳<small>扣預扣 10% 與補充保費</small>",x=>f(x.cash)]
+ ];
+ $("tb").innerHTML=rows.map(([n,fn,c])=>"<tr"+(c?' class="'+c+'"':"")+"><td>"+n+"</td>"+[A,B,C,D].map(x=>"<td>"+fn(x)+"</td>").join("")+"</tr>").join("");
+}
+ids.forEach(i=>$(i).addEventListener("input",render));
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{$("bear").value=b.dataset.v;render()});
+$("be").onclick=()=>{$("rent").value=Math.ceil(breakeven(P())/100)*100;render()};
+render();
+</script></body></html>
